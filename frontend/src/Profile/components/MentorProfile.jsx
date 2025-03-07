@@ -74,7 +74,7 @@ const MentorProfile = () => {
 
       <div className="profile-actions">
         <button className="back-button" onClick={() => navigate(-1)}>
-          Back
+        ⬅ Back
         </button>
         {user?.id === mentor._id ? (
           <button

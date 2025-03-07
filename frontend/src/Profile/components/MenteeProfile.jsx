@@ -65,7 +65,7 @@ const MenteeProfile = () => {
 
       <div className="profile-actions">
         <button className="back-button" onClick={() => window.history.back()}>
-          Back
+        ⬅ Back
         </button>
       </div>
     </div>

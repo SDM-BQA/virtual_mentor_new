@@ -1,0 +1,299 @@
+.mentor-dashboard-container {
+  max-width: 800px;
+  margin: 20px auto;
+  padding: 25px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  font-family: 'Arial', sans-serif;
+  background-color: #f9f9f9;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.profile-header {
+  text-align: center;
+  margin-bottom: 25px;
+}
+
+.profile-picture {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 12px;
+  border: 4px solid #007bff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.profile-name {
+  font-size: 2em;
+  font-weight: bold;
+  margin-bottom: 5px;
+  color: #333;
+}
+
+.profile-role {
+  color: #555;
+  font-size: 1.2em;
+}
+
+.profile-details {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  margin-bottom: 25px;
+}
+
+.detail-section {
+  flex-basis: 48%;
+  margin-bottom: 15px;
+  font-size: 1.1em;
+  color: #333;
+}
+
+.detail-section strong {
+  font-weight: bold;
+  color: #007bff;
+}
+
+.bio-section {
+  width: 100%;
+  padding: 15px;
+  background: white;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  margin-bottom: 25px;
+}
+
+.manage-sessions {
+  border: 1px solid #ddd;
+  padding: 20px;
+  border-radius: 8px;
+  background: white;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+.session-input {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.session-input input {
+  flex-grow: 1;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 1em;
+  transition: border-color 0.3s;
+}
+
+.session-input input:focus {
+  border-color: #007bff;
+  outline: none;
+}
+
+.session-input button {
+  padding: 10px 15px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.3s ease-in-out;
+}
+
+.session-input button:hover {
+  background-color: #0056b3;
+}
+
+.session-list {
+  list-style: none;
+  padding: 0;
+  margin-top: 15px;
+}
+
+.session-list li {
+  padding: 12px;
+  background: #f1f8ff;
+  border-radius: 6px;
+  border: 1px solid #007bff;
+  margin-bottom: 10px;
+  font-size: 1.1em;
+  color: #333;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.session-list li:hover {
+  transform: scale(1.03);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.session-list .delete-btn {
+  padding: 5px 10px;
+  background: red;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.3s ease-in-out;
+}
+
+.session-list .delete-btn:hover {
+  background: darkred;
+}
+
+/* Available Sessions Section */
+.available-sessions {
+  border: 1px solid #ddd;
+  padding: 20px;
+  border-radius: 8px;
+  background: white;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  margin-top: 25px;
+}
+
+.available-sessions h3 {
+  margin-bottom: 15px;
+  color: #007bff;
+  font-size: 1.5em;
+}
+
+.available-sessions .session-item {
+  padding: 12px;
+  background: #e3f2fd;
+  border-radius: 6px;
+  border: 1px solid #007bff;
+  margin-bottom: 10px;
+  font-size: 1.1em;
+  color: #333;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.available-sessions .session-item:hover {
+  transform: scale(1.03);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.available-sessions .join-btn {
+  padding: 5px 10px;
+  background: #28a745;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.3s ease-in-out;
+}
+
+.available-sessions .join-btn:hover {
+  background: #218838;
+}
+
+/* Loading and Error Messages */
+.loading-container,
+.error-container,
+.not-found-container {
+  text-align: center;
+  padding: 20px;
+  font-size: 1.2em;
+}
+
+.error-container {
+  color: red;
+  font-weight: bold;
+}
+
+/* Session Scheduler */
+.session-scheduler {
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
+  gap: 10px;
+}
+
+.session-scheduler label {
+  font-weight: bold;
+}
+
+.session-scheduler .date-picker,
+.session-scheduler .time-picker {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  background: #f9f9f9;
+}
+
+.session-scheduler button {
+  padding: 10px 15px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.3s ease-in-out;
+}
+
+.session-scheduler button:hover {
+  background-color: #0056b3;
+}
+.session-management-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.mentor-content-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr; /* Adjust ratios as needed */
+  gap: 20px;
+}
+
+.session-management-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.upcoming-sessions,
+.manage-sessions {
+  border-radius: 16px;
+  background: white;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+  padding: 35px;
+  margin-bottom: 20px; /* Add margin for spacing */
+}
+
+.upcoming-sessions h3,
+.manage-sessions h3 {
+  margin-bottom: 20px;
+}
+.no-sessions {
+  text-align: center;
+  margin-top: 10px;
+  color: #888;
+  font-style: italic;
+}
+
+.back-button {
+  padding: 10px 15px;
+  background-color: #4da6ff;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease-in-out;
+  font-size: 1em;
+  margin-top: 20px;
+}
+
+.back-button:hover {
+  background-color: #3385e0;
+}

@@ -1,9 +1,10 @@
 .mentor-profile-container {
-    max-width: 800px; /* Adjust as needed */
-    margin: 20px auto; /* Centers the container */
+    max-width: 800px;
+    margin: 50px auto;
     padding: 20px;
-    border: 1px solid #ddd;
+    background-color: #f8f9fa;
     border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   }
   
   .profile-header {
