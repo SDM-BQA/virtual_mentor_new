@@ -1,0 +1,152 @@
+/* Flexbox Utility */
+.flex {
+    display: flex;
+    align-items: center;
+}
+
+/* Navbar Container */
+#navbar {
+    background-color: var(--primary-color);
+    padding: 0.8rem;
+    height: 6rem;
+}
+
+/* Navbar Inner Container */
+#nav {
+    justify-content: space-between;
+    max-width: var(--max-width);
+    width: 100%;
+    margin: 0 auto;
+}
+
+/* Logo Section */
+#logo {
+    justify-content: center;
+}
+
+#logo img {
+    height: 5rem;
+    width: 5rem;
+}
+
+#logo p {
+    color: var(--secondary-color);
+    font-size: 2rem;
+    margin-left: 0.5rem;
+    font-style: italic;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Input Fields */
+#inputs {
+    justify-content: space-between;
+    gap: 1.5rem;
+}
+
+#inputs input {
+    padding: 0.5rem 0.8rem;
+    font-size: 1rem;
+    border: 1px solid transparent;
+    outline: 0;
+    box-sizing: border-box;
+}
+
+#inputs input:focus {
+    border-color: var(--secondary-color);
+}
+
+/* Dropdown Styling */
+.dropdown-menu {
+    right: 0 !important;
+    left: auto !important;
+    min-width: 12rem; /* Adjust width if needed */
+    max-height: 300px; /* Prevent excessive height */
+    overflow-y: auto; /* Enable scrolling if needed */
+    border-radius: 8px;
+    border: 1px solid #ccc; /* Light grey border */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    background-color: white;
+}
+
+/* Position dropdown correctly */
+.navbar .dropdown {
+    position: relative;
+}
+
+.navbar .dropdown-menu {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    left: auto;
+    z-index: 1050; /* Ensure it's above other elements */
+}
+
+/* Dropdown Button */
+.dropdown-toggle {
+    border: none;
+    background-color: transparent;
+    color: white;
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    cursor: pointer;
+}
+
+.dropdown-toggle:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+/* Dropdown Items */
+.dropdown-menu .dropdown-item {
+    padding: 0.5rem 1rem;
+    color: #333;
+    border-bottom: 1px solid #eee !important; /* Add separator between items */
+}
+
+.dropdown-menu .dropdown-item:last-child {
+    border-bottom: none; /* Remove border for last item */
+}
+
+.dropdown-menu .dropdown-item:hover {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+/* Responsive Design */
+@media (max-width: 880px) {
+    #navbar {
+        height: 5rem;
+    }
+    
+    #logo img {
+        height: 4rem;
+        width: 4rem;
+    }
+
+    #logo p {
+        font-size: 1.5rem;
+    }
+
+    .dropdown-menu {
+        width: 100%; /* Ensure full width in mobile */
+        text-align: center;
+    }
+}
+
+@media (max-width: 580px) {
+    #navbar {
+        height: 4.5rem;
+    }
+
+    #logo img {
+        height: 3.5rem;
+        width: 3.5rem;
+    }
+
+    #logo p {
+        font-size: 1.3rem;
+    }
+
+    .dropdown-menu {
+        width: 100%; /* Full width for smaller screens */
+    }
+}

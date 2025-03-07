@@ -1,0 +1,83 @@
+.mentee-profile-container {
+    max-width: 800px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .profile-header {
+    text-align: center;
+    margin-bottom: 30px;
+  }
+  
+  .profile-picture {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
+  
+  .profile-name {
+    margin-bottom: 5px;
+    font-size: 24px;
+    font-weight: 600;
+    color: #333;
+  }
+  
+  .profile-role {
+    color: #6c757d;
+  }
+  
+  .profile-details {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .detail-section,
+  .bio-section {
+    margin-bottom: 20px;
+    padding: 15px;
+    border: 1px solid #dee2e6;
+    border-radius: 6px;
+    background-color: white;
+  }
+  
+  .detail-section p {
+    margin-bottom: 8px;
+    line-height: 1.6;
+  }
+  
+  .bio-section p {
+    line-height: 1.6;
+  }
+  
+  .profile-actions {
+    text-align: center;
+    margin-top: 30px;
+  }
+  
+  .back-button {
+    padding: 10px 20px;
+    background-color: #6c757d;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .back-button:hover {
+    background-color: #5a6268;
+  }
+  
+  .loading-container,
+  .no-user-container {
+    text-align: center;
+    margin-top: 50px;
+    font-size: 18px;
+    color: #555;
+  }

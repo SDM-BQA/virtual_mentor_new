@@ -1,0 +1,14 @@
+*, *::before, *::after{
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  font-family: Poppins, sans-serif;
+  /* Hex codes: #375E97, #FB6542, #FFBB00 */
+  text-decoration: none;
+}
+:root {
+  --primary-color: #062945;
+  --secondary-color: #ffbb00;
+  --btn-color: #fb6542;
+  --max-width:1440px;
+}

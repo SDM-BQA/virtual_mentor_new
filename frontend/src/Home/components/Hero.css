@@ -1,0 +1,17 @@
+.hero-section {
+    background: url("/assets/bg.jpg") no-repeat center center;
+    background-size: cover;
+    height: 80vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: black;
+  }
+  .hero-section img {
+    width: 100%;
+    max-width: 600px;
+    display: block;
+    margin: 20px auto;
+  }
+  
