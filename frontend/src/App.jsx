@@ -19,7 +19,8 @@ import MentorProfile from "./Profile/components/MentorProfile.jsx";
 import MenteeProfile from "./Profile/components/MenteeProfile.jsx";
 import Explore from "./Explore/Explore.jsx";
 import MenteeDashboard from "./Dashboard/MenteeDashboard.jsx";
-import  MentorDashboard  from "./Dashboard/MentorDashboard.jsx";
+import MentorDashboard from "./Dashboard/MentorDashboard.jsx";
+import BookSession from "./BookSession/BookSession.jsx"; // Import BookSession
 
 function App() {
   return (
@@ -40,12 +41,10 @@ function App() {
           <Route path="/profile/mentor" element={<MentorProfile />} />
           <Route path="/profile/mentee" element={<MenteeProfile />} />
           <Route path="/profile/mentor/:mentorId" element={<MentorProfile />} />
-          <Route
-            path="/profile/mentee/:menteeId"
-            element={<MenteeProfile />}
-          />{" "}
-          <Route path="mentor-dashboard/:userId" element={<MentorDashboard/>}/>
-          <Route path="mentee-dashboard/:userId" element={<MenteeDashboard/>}/>
+          <Route path="/profile/mentee/:menteeId" element={<MenteeProfile />} />
+          <Route path="mentor-dashboard/:userId" element={<MentorDashboard />} />
+          <Route path="mentee-dashboard/:userId" element={<MenteeDashboard />} />
+          <Route path="/book-session/:mentorId" element={<BookSession />} /> {/* BookSession route */}
           {/* Redirect for undefined routes */}
           <Route path="*" element={<Navigate to="/" />} />
         </Routes>

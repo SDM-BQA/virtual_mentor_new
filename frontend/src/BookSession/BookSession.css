@@ -1,0 +1,90 @@
+.book-session-container {
+    background: #fff;
+    padding: 30px;
+    max-width: 800px;
+    margin: 40px auto;
+    border-radius: 12px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .mentor-details {
+    text-align: center;
+    margin-bottom: 25px;
+  }
+  
+  .mentor-image {
+    width: 180px;
+    height: 180px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 15px;
+    border: 3px solid #007bff;
+  }
+  
+  .mentor-details p {
+    font-size: 16px;
+    color: #333;
+    margin-bottom: 5px;
+  }
+  
+  .available-sessions {
+    margin-top: 20px;
+  }
+  
+  .available-sessions h3 {
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 10px;
+    text-align: center;
+    color: #007bff;
+  }
+  
+  .list-group {
+    padding: 0;
+  }
+  
+  .list-group-item {
+    padding: 12px;
+    cursor: pointer;
+    transition: background 0.3s ease-in-out;
+    font-size: 16px;
+    text-align: center;
+    background: #f8f9fa;
+    border: 1px solid #ddd;
+  }
+  
+  .list-group-item:hover {
+    background: #007bff;
+    color: white;
+  }
+  
+  .list-group-item.active {
+    background: #0056b3;
+    color: white;
+    font-weight: 600;
+  }
+  
+  .button-group {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 20px;
+  }
+  
+  .btn-primary, .btn-secondary {
+    font-size: 18px;
+    padding: 10px 20px;
+    border-radius: 6px;
+    min-width: 180px;
+  }
+  
+  .loading-container,
+  .error-container,
+  .not-found-container {
+    text-align: center;
+    margin-top: 50px;
+    font-size: 18px;
+    font-weight: 500;
+    color: #dc3545;
+  }
+  

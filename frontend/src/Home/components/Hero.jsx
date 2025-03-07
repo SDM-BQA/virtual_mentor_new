@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
 import "./Hero.css";
 import bgImage from "../../assets/bg.jpg";
@@ -10,10 +10,18 @@ const Hero = () => {
 
   const handleGetStarted = () => {
     if (user) {
-      navigate("/explore");
+      if (user.mentorIn) {
+        navigate("/explore"); // or navigate to mentor specific page if needed
+      } else {
+        navigate(`/profile/mentee/${user._id}`); // Navigate to mentee profile
+      }
     } else {
       navigate("/auth");
     }
+  };
+
+  const handleExplore = () => {
+    navigate("/explore");
   };
 
   return (
@@ -27,13 +35,21 @@ const Hero = () => {
           A platform to explore, learn, and mentor in the world of Indian art.
         </p>
 
-        <button onClick={handleGetStarted} className="btn btn-primary btn-lg">
-          {user ? (
-            user.isMentor ? "Featured Mentors" : "Explore Mentors"
-          ) : (
-            "Get Started"
-          )}
-        </button>
+        <div className="d-flex justify-content-center mt-4">
+          <button
+            onClick={handleGetStarted}
+            className="btn btn-primary btn-lg me-3"
+          >
+            {user
+              ? user.mentorIn
+                ? "Featured Mentors"
+                : "Profile"
+              : "Get Started"}
+          </button>
+          <Link to={"/explore"} className="btn btn-outline-light btn-lg">
+            Explore Mentors
+          </Link>
+        </div>
       </div>
     </div>
   );
