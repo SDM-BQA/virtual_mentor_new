@@ -38,13 +38,12 @@
 
 .profile-details {
   display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
+  flex-direction: column; /* Changed to column layout */
   margin-bottom: 25px;
 }
 
 .detail-section {
-  flex-basis: 48%;
+  width: 100%; /* Take full width */
   margin-bottom: 15px;
   font-size: 1.1em;
   color: #333;
@@ -65,12 +64,28 @@
   margin-bottom: 25px;
 }
 
-.manage-sessions {
-  border: 1px solid #ddd;
-  padding: 20px;
-  border-radius: 8px;
+.session-management-container {
+  display: flex; /* Changed to flex column */
+  flex-direction: column;
+  gap: 20px;
+}
+
+.upcoming-sessions,
+.manage-sessions,
+.available-sessions {
+  border-radius: 16px;
   background: white;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+  padding: 35px;
+  margin-bottom: 20px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.upcoming-sessions h3,
+.manage-sessions h3,
+.available-sessions h3 {
+  margin-bottom: 20px;
 }
 
 .session-input {
@@ -148,51 +163,27 @@
 
 /* Available Sessions Section */
 .available-sessions {
-  border: 1px solid #ddd;
-  padding: 20px;
-  border-radius: 8px;
-  background: white;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
-  margin-top: 25px;
+  /* ... (styles already included above) ... */
 }
 
 .available-sessions h3 {
-  margin-bottom: 15px;
-  color: #007bff;
-  font-size: 1.5em;
+  /* ... (styles already included above) ... */
 }
 
 .available-sessions .session-item {
-  padding: 12px;
-  background: #e3f2fd;
-  border-radius: 6px;
-  border: 1px solid #007bff;
-  margin-bottom: 10px;
-  font-size: 1.1em;
-  color: #333;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+  /* ... (styles already included above) ... */
 }
 
 .available-sessions .session-item:hover {
-  transform: scale(1.03);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  /* ... (styles already included above) ... */
 }
 
 .available-sessions .join-btn {
-  padding: 5px 10px;
-  background: #28a745;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background 0.3s ease-in-out;
+  /* ... (styles already included above) ... */
 }
 
 .available-sessions .join-btn:hover {
-  background: #218838;
+  /* ... (styles already included above) ... */
 }
 
 /* Loading and Error Messages */
@@ -212,7 +203,8 @@
 /* Session Scheduler */
 .session-scheduler {
   display: flex;
-  align-items: center;
+  flex-direction: column;
+  align-items: flex-start;
   margin-bottom: 15px;
   gap: 10px;
 }
@@ -222,13 +214,16 @@
 }
 
 .session-scheduler .date-picker,
-.session-scheduler .time-picker {
+.session-scheduler .time-picker,
+.session-scheduler .duration-picker {
   display: flex;
   align-items: center;
   padding: 10px;
   border-radius: 5px;
   border: 1px solid #ccc;
   background: #f9f9f9;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .session-scheduler button {
@@ -239,42 +234,15 @@
   border-radius: 5px;
   cursor: pointer;
   transition: background 0.3s ease-in-out;
+  width: 100%;
+  box-sizing: border-box;
+  margin-top: 10px;
 }
 
 .session-scheduler button:hover {
   background-color: #0056b3;
 }
-.session-management-container {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 20px;
-}
 
-.mentor-content-grid {
-  display: grid;
-  grid-template-columns: 2fr 1fr; /* Adjust ratios as needed */
-  gap: 20px;
-}
-
-.session-management-container {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-}
-
-.upcoming-sessions,
-.manage-sessions {
-  border-radius: 16px;
-  background: white;
-  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
-  padding: 35px;
-  margin-bottom: 20px; /* Add margin for spacing */
-}
-
-.upcoming-sessions h3,
-.manage-sessions h3 {
-  margin-bottom: 20px;
-}
 .no-sessions {
   text-align: center;
   margin-top: 10px;

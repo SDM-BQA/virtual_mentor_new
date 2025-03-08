@@ -31,8 +31,6 @@ const MentorProfile = () => {
   if (error) return <div className="error-container">Error: {error.message}</div>;
   if (!mentor) return <div className="not-found-container">Mentor not found.</div>;
 
-  console.log(user, mentor); // Debugging: Inspect user and mentor objects
-
   return (
     <div className="mentor-profile-container">
       <div className="profile-header">
@@ -74,7 +72,7 @@ const MentorProfile = () => {
 
       <div className="profile-actions">
         <button className="back-button" onClick={() => navigate(-1)}>
-        ⬅ Back
+          ⬅ Back
         </button>
         {user?.id === mentor._id ? (
           <button
@@ -86,7 +84,13 @@ const MentorProfile = () => {
         ) : (
           <button
             className="book-button"
-            onClick={() => navigate(`/book-session/${mentorId}`)}
+            onClick={() => {
+              if (user) {
+                navigate(`/book-session/${mentorId}`);
+              } else {
+                navigate('/auth');
+              }
+            }}
           >
             Book a Session
           </button>

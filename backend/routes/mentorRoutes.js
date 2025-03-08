@@ -3,6 +3,7 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const multer = require("multer");
 const Mentor = require("../models/Mentor");
+const Session = require("../models/Session"); // Import Session model
 const dotenv = require("dotenv");
 
 dotenv.config();
@@ -24,53 +25,77 @@ const upload = multer({ storage });
 const JWT_SECRET = process.env.JWT_SECRET;
 
 // Mentor Registration Route
-router.post("/mentorregister", upload.single("profilePicture"), async (req, res) => {
-  try {
-    const { firstName, lastName, email, mobile, gender, dob, country, state, city, password, mentorIn, experience, awards, socialLinks, videoLink, bio } = req.body;
+router.post(
+  "/mentorregister",
+  upload.single("profilePicture"),
+  async (req, res) => {
+    try {
+      const {
+        firstName,
+        lastName,
+        email,
+        mobile,
+        gender,
+        dob,
+        country,
+        state,
+        city,
+        password,
+        mentorIn,
+        experience,
+        awards,
+        socialLinks,
+        videoLink,
+        bio,
+      } = req.body;
 
-    // Check if email already exists
-    const existingMentor = await Mentor.findOne({ email });
-    if (existingMentor) return res.status(400).json({ message: "Email already registered" });
+      // Check if email already exists
+      const existingMentor = await Mentor.findOne({ email });
+      if (existingMentor)
+        return res.status(400).json({ message: "Email already registered" });
 
-    // Hash password
-    const hashedPassword = await bcrypt.hash(password, 10);
+      // Hash password
+      const hashedPassword = await bcrypt.hash(password, 10);
 
-    // Create new mentor
-    const newMentor = new Mentor({
-      firstName,
-      lastName,
-      email,
-      mobile,
-      gender,
-      dob,
-      country,
-      state,
-      city,
-      password: hashedPassword,
-      mentorIn,
-      experience,
-      awards,
-      socialLinks: socialLinks ? JSON.parse(socialLinks) : [],
-      videoLink,
-      profilePicture: req.file ? req.file.path : null,
-      bio,
-    });
+      // Create new mentor
+      const newMentor = new Mentor({
+        firstName,
+        lastName,
+        email,
+        mobile,
+        gender,
+        dob,
+        country,
+        state,
+        city,
+        password: hashedPassword,
+        mentorIn,
+        experience,
+        awards,
+        socialLinks: socialLinks ? JSON.parse(socialLinks) : [],
+        videoLink,
+        profilePicture: req.file ? req.file.path : null,
+        bio,
+      });
 
-    // Save mentor to DB
-    await newMentor.save();
+      // Save mentor to DB
+      await newMentor.save();
 
-    // Generate JWT Token
-    const token = jwt.sign(
-      { mentorId: newMentor._id, email: newMentor.email },
-      JWT_SECRET,
-      { expiresIn: "7d" }
-    );
+      // Generate JWT Token
+      const token = jwt.sign(
+        { mentorId: newMentor._id, email: newMentor.email },
+        JWT_SECRET,
+        { expiresIn: "7d" }
+      );
 
-    res.status(201).json({ message: "Mentor registered successfully", token });
-  } catch (error) {
-    res.status(500).json({ message: "Server Error", error: error.message });
+      res
+        .status(201)
+        .json({ message: "Mentor registered successfully", token });
+    } catch (error) {
+      res.status(500).json({ message: "Server Error", error: error.message });
+    }
   }
-});
+);
 
 // Mentor Login Route
 router.post("/login", async (req, res) => {
@@ -79,11 +104,13 @@ router.post("/login", async (req, res) => {
 
     // Check if mentor exists
     const mentor = await Mentor.findOne({ email });
-    if (!mentor) return res.status(400).json({ message: "Invalid email or password" });
+    if (!mentor)
+      return res.status(400).json({ message: "Invalid email or password" });
 
     // Compare passwords
     const isMatch = await bcrypt.compare(password, mentor.password);
-    if (!isMatch) return res.status(400).json({ message: "Invalid email or password" });
+    if (!isMatch)
+      return res.status(400).json({ message: "Invalid email or password" });
 
     // Generate JWT Token
     const token = jwt.sign(
@@ -92,7 +119,9 @@ router.post("/login", async (req, res) => {
       { expiresIn: "7d" }
     );
 
-    res.status(200).json({ message: "Login successful", token, isMentor: mentor.isMentor });
+    res
+      .status(200)
+      .json({ message: "Login successful", token, isMentor: mentor.isMentor });
   } catch (error) {
     res.status(500).json({ message: "Server Error", error: error.message });
   }
@@ -134,5 +163,35 @@ const verifyToken = (req, res, next) => {
     res.status(400).json({ message: "Invalid Token" });
   }
 };
+
+// Create Session Route
+router.post("/sessions", async (req, res) => {
+  try {
+    const { mentorId, date, duration, status } = req.body;
+    const newSession = new Session({
+      mentorId,
+      date,
+      duration,
+      status,
+    });
+    await newSession.save();
+    res.status(201).json({ message: "Session created successfully" });
+  } catch (error) {
+    console.error("Error creating session:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+
+// Get Mentor's Sessions Route
+router.get("/:mentorId/sessions", async (req, res) => {
+  try {
+    const mentorId = req.params.mentorId;
+    const sessions = await Session.find({ mentorId: mentorId });
+    res.status(200).json(sessions);
+  } catch (error) {
+    console.error("Error getting sessions:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
 
 module.exports = router;

@@ -56,6 +56,10 @@
 }
 
 /* Dropdown Styling */
+.dropdown{
+    border: 1px solid #fff;
+    border-radius: 8px;
+}
 .dropdown-menu {
     right: 0 !important;
     left: auto !important;
@@ -92,7 +96,7 @@
 }
 
 .dropdown-toggle:hover {
-    background-color: rgba(255, 255, 255, 0.2);
+    /* background-color: rgba(255, 255, 255, 0.2); */
 }
 
 /* Dropdown Items */
@@ -110,6 +114,49 @@
     background-color: var(--primary-color);
     color: white;
 }
+
+.sidebar {
+    position: fixed;
+    top: 6rem; /* Adjust to navbar height */
+    right: -250px; /* Initially hidden */
+    width: 250px;
+    height: 100vh;
+    background-color: var(--primary-color);
+    transition: right 0.3s ease-in-out;
+    z-index: 1060; /* Ensure it's above other elements */
+    overflow-y: auto;
+  }
+  
+  .sidebar.open {
+    right: 0;
+  }
+  
+  .sidebar-content {
+    padding: 1rem;
+  }
+  
+  .sidebar-link {
+    display: block;
+    padding: 0.75rem 1rem;
+    color: white;
+    text-decoration: none;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  }
+  
+  .sidebar-link:last-child {
+    border-bottom: none;
+  }
+  
+  .sidebar-link:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+  
+  /* Hide desktop menu items on small screens */
+  @media (max-width: 991.98px) {
+    .d-lg-block {
+      display: none !important;
+    }
+  }
 
 /* Responsive Design */
 @media (max-width: 880px) {
