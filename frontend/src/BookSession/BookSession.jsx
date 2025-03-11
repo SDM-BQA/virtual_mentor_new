@@ -21,25 +21,18 @@ const BookSession = () => {
       try {
         const response = await axios.get(`http://localhost:5000/api/mentors/${mentorId}`);
         setMentor(response.data);
+  
+        const sessionsResponse = await axios.get(`http://localhost:5000/api/mentors/sessions?mentorId=${mentorId}&status=available`); // Corrected URL
+        setAvailableSessions(sessionsResponse.data);
+        console.log(sessionsResponse.data);
+  
         setLoading(false);
-        setAvailableSessions([
-          "Monday 10:00 AM - 11:00 AM",
-          "Wednesday 2:00 PM - 3:00 PM",
-          "Friday 4:00 PM - 5:00 PM",
-          "Saturday 11:00 AM - 12:00 PM"
-        ]);
       } catch (err) {
         setError(err);
         setLoading(false);
-        setAvailableSessions([
-          "Monday 10:00 AM - 11:00 AM",
-          "Wednesday 2:00 PM - 3:00 PM",
-          "Friday 4:00 PM - 5:00 PM",
-          "Saturday 11:00 AM - 12:00 PM"
-        ]);
       }
     };
-
+  
     fetchMentor();
   }, [mentorId]);
 
@@ -47,13 +40,24 @@ const BookSession = () => {
   if (error) return <div className="error-container">Error: {error.message}</div>;
   if (!mentor) return <div className="not-found-container">Mentor not found.</div>;
 
-  const handleBooking = () => {
+  const handleBooking = async () => {
     if (!selectedSession) {
       alert("Please select a session.");
       return;
     }
-    alert(`Booking session with ${mentor.firstName} ${mentor.lastName} on ${selectedSession}`);
-    navigate(`/mentee-dashboard/${userId}`);
+
+    try {
+      await axios.put(`http://localhost:5000/api/mentors/sessions/${selectedSession._id}`, {
+        menteeId: userId,
+        status: "booked",
+      });
+
+      alert(`Booking session with ${mentor.firstName} ${mentor.lastName} on ${selectedSession.date}`);
+      navigate(`/mentee-dashboard/${userId}`);
+    } catch (bookingError) {
+      alert("Error booking session. Please try again.");
+      console.error("Booking error:", bookingError);
+    }
   };
 
   return (
@@ -76,24 +80,24 @@ const BookSession = () => {
         <h3>Available Sessions:</h3>
         {availableSessions.length > 0 ? (
           <ul className="list-group">
-            {availableSessions.map((session, index) => (
+            {availableSessions.map((session) => (
               <li
-                key={index}
-                className={`list-group-item ${selectedSession === session ? 'active' : ''}`}
+                key={session._id}
+                className={`list-group-item ${selectedSession && selectedSession._id === session._id ? 'active' : ''}`}
                 onClick={() => setSelectedSession(session)}
               >
-                {session}
+                {session.date} - {session.duration} minutes
               </li>
             ))}
           </ul>
         ) : (
-          <p>No available sessions.</p>
+          <p>No available sessions found.</p>
         )}
       </div>
 
       <div className="button-group">
         <button className="btn btn-secondary" onClick={() => navigate(-1)}>
-          ⬅ Back 
+          ⬅ Back
         </button>
         <button className="btn btn-primary" onClick={handleBooking}>
           Confirm Booking

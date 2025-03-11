@@ -3,7 +3,8 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const multer = require("multer");
 const Mentor = require("../models/Mentor");
-const Session = require("../models/Session"); // Import Session model
+const Session = require("../models/Session");
+const Mentee = require("../models/Mentee"); // Import Mentee model
 const dotenv = require("dotenv");
 
 dotenv.config();
@@ -165,32 +166,120 @@ const verifyToken = (req, res, next) => {
 };
 
 // Create Session Route
+// router.post("/sessions", async (req, res) => {
+//   try {
+//     const { mentorId, date, duration, status } = req.body;
+//     const newSession = new Session({
+//       mentorId,
+//       date,
+//       duration,
+//       status,
+//     });
+//     await newSession.save();
+//     res.status(201).json({ message: "Session created successfully" });
+//   } catch (error) {
+//     console.error("Error creating session:", error);
+//     res.status(500).json({ error: "Internal server error" });
+//   }
+// });
+// Create Session Route
 router.post("/sessions", async (req, res) => {
   try {
     const { mentorId, date, duration, status } = req.body;
+
+    // Basic input validation (optional, but recommended)
+    if (!mentorId || !date || !duration || !status) {
+      return res.status(400).json({ message: "Missing required fields" });
+    }
+
+    // Convert duration to a number (if it's not already)
+    const durationNum = parseInt(duration, 10);
+    if (isNaN(durationNum) || durationNum <= 0) {
+      return res.status(400).json({ message: "Invalid duration" });
+    }
+
     const newSession = new Session({
       mentorId,
       date,
-      duration,
+      duration: durationNum,
       status,
     });
+
     await newSession.save();
-    res.status(201).json({ message: "Session created successfully" });
+    res.status(201).json({ message: "Session created successfully", session: newSession }); // Include the created session in the response
+
   } catch (error) {
     console.error("Error creating session:", error);
-    res.status(500).json({ error: "Internal server error" });
+
+    // Handle specific error types (e.g., database errors)
+    if (error.name === "ValidationError") {
+      return res.status(400).json({ message: "Validation error", errors: error.errors });
+    }
+
+    res.status(500).json({ message: "Internal server error", error: error.message }); // Send error message to client
   }
 });
 
-// Get Mentor's Sessions Route
-router.get("/:mentorId/sessions", async (req, res) => {
+// // Get Mentor's Sessions Route
+// router.get("/:mentorId/sessions", async (req, res) => {
+//   try {
+//     const mentorId = req.params.mentorId;
+//     const sessions = await Session.find({ mentorId: mentorId });
+//     res.status(200).json(sessions);
+//   } catch (error) {
+//     console.error("Error getting sessions:", error);
+//     res.status(500).json({ error: "Internal server error" });
+//   }
+// });
+
+router.get("/sessions", async (req, res) => {
   try {
-    const mentorId = req.params.mentorId;
-    const sessions = await Session.find({ mentorId: mentorId });
+    const mentorId = req.query.mentorId;
+    const status = req.query.status;
+    let query = {};
+
+    if (mentorId) {
+        query.mentorId = mentorId;
+    }
+
+    if (status){
+        query.status = status;
+    }
+
+    const sessions = await Session.find(query);
     res.status(200).json(sessions);
   } catch (error) {
     console.error("Error getting sessions:", error);
     res.status(500).json({ error: "Internal server error" });
+  }
+});
+
+// Update Session Route (for booking)
+router.put("/sessions/:id", async (req, res) => {
+  try {
+    const { menteeId, status } = req.body;
+
+    const session = await Session.findById(req.params.id);
+    if (!session) {
+      return res.status(404).json({ message: "Session not found" });
+    }
+
+    // Validate menteeId (optional, but recommended)
+    if (menteeId) {
+      const mentee = await Mentee.findById(menteeId);
+      if (!mentee) {
+        return res.status(400).json({ message: "Invalid mentee ID" });
+      }
+    }
+
+    session.menteeId = menteeId;
+    session.status = status;
+    await session.save();
+
+    res.json({ message: "Session updated successfully", session });
+  } catch (error) {
+    console.error("Error updating session:", error);
+    res.status(500).json({ message: "Server error", error: error.message });
   }
 });
 

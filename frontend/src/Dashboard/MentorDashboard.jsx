@@ -1,4 +1,3 @@
-// MentorDashboard.jsx
 import { useEffect, useState, useContext } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -38,7 +37,7 @@ const MentorDashboard = () => {
     const fetchSessions = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:5000/api/mentors/${userId}/sessions`
+          `http://localhost:5000/api/mentors/sessions?mentorId=${userId}`
         );
         setAvailableSessions(response.data.filter((session) => session.status === "available"));
         setUpcomingSessions(response.data.filter((session) => session.status === "booked"));
@@ -82,7 +81,7 @@ const MentorDashboard = () => {
       await axios.post("http://localhost:5000/api/mentors/sessions", newSession);
 
       const response = await axios.get(
-        `http://localhost:5000/api/mentors/${userId}/sessions`
+        `http://localhost:5000/api/mentors/sessions?mentorId=${userId}`
       );
       setAvailableSessions(response.data.filter((session) => session.status === "available"));
       setUpcomingSessions(response.data.filter((session) => session.status === "booked"));
@@ -103,6 +102,7 @@ const MentorDashboard = () => {
   if (loading) return <div className="loading-container">Loading...</div>;
   if (error) return <div className="error-container">Error: {error.message}</div>;
   if (!mentor) return <div className="not-found-container">Mentor not found.</div>;
+
 
   return (
     <div className="mentor-dashboard-container">

@@ -84,4 +84,32 @@ router.get("/", async (req, res) => {
   }
 });
 
+
+router.put("/sessions/:id", async (req, res) => {
+  try {
+    const { menteeId, status } = req.body;
+
+    const session = await Session.findById(req.params.id);
+    if (!session) {
+      return res.status(404).json({ message: "Session not found" });
+    }
+
+    // Validate menteeId (optional, but recommended)
+    if (menteeId) {
+      const mentee = await require("../models/Mentee").findById(menteeId); // Import Mentee model here
+      if (!mentee) {
+        return res.status(400).json({ message: "Invalid mentee ID" });
+      }
+    }
+
+    session.menteeId = menteeId;
+    session.status = status;
+    await session.save();
+
+    res.json({ message: "Session updated successfully", session });
+  } catch (error) {
+    console.error("Error updating session:", error);
+    res.status(500).json({ message: "Server error", error: error.message });
+  }
+});
 module.exports = router;
