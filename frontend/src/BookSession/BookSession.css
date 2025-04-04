@@ -1,90 +1,137 @@
+/* BookSession.css */
+
 .book-session-container {
-    background: #fff;
-    padding: 30px;
-    max-width: 800px;
-    margin: 40px auto;
-    border-radius: 12px;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-  }
-  
-  .mentor-details {
-    text-align: center;
-    margin-bottom: 25px;
-  }
-  
-  .mentor-image {
-    width: 180px;
-    height: 180px;
-    border-radius: 50%;
-    object-fit: cover;
-    margin-bottom: 15px;
-    border: 3px solid #007bff;
-  }
-  
-  .mentor-details p {
-    font-size: 16px;
-    color: #333;
-    margin-bottom: 5px;
-  }
-  
-  .available-sessions {
-    margin-top: 20px;
-  }
-  
-  .available-sessions h3 {
-    font-size: 20px;
-    font-weight: 600;
-    margin-bottom: 10px;
-    text-align: center;
-    color: #007bff;
-  }
-  
-  .list-group {
-    padding: 0;
-  }
-  
-  .list-group-item {
-    padding: 12px;
-    cursor: pointer;
-    transition: background 0.3s ease-in-out;
-    font-size: 16px;
-    text-align: center;
-    background: #f8f9fa;
-    border: 1px solid #ddd;
-  }
-  
-  .list-group-item:hover {
-    background: #007bff;
-    color: white;
-  }
-  
-  .list-group-item.active {
-    background: #0056b3;
-    color: white;
-    font-weight: 600;
-  }
-  
-  .button-group {
-    display: flex;
-    justify-content: center;
-    gap: 15px;
-    margin-top: 20px;
-  }
-  
-  .btn-primary, .btn-secondary {
-    font-size: 18px;
-    padding: 10px 20px;
-    border-radius: 6px;
-    min-width: 180px;
-  }
-  
-  .loading-container,
-  .error-container,
-  .not-found-container {
-    text-align: center;
-    margin-top: 50px;
-    font-size: 18px;
-    font-weight: 500;
-    color: #dc3545;
-  }
-  
+  max-width: 800px;
+  margin: 30px auto;
+  padding: 30px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.book-session-container h2 {
+  color: #333;
+  margin-bottom: 25px;
+}
+
+.mentor-details {
+  background-color: #fff;
+  padding: 20px;
+  border: 1px solid #eee;
+  border-radius: 6px;
+  margin-bottom: 25px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.mentor-image {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 15px;
+  border: 3px solid #007bff;
+}
+
+.mentor-details p {
+  margin-bottom: 8px;
+  color: #555;
+  text-align: center;
+}
+
+.mentor-details strong {
+  font-weight: bold;
+  color: #333;
+}
+
+.available-sessions {
+  margin-bottom: 30px;
+}
+
+.available-sessions h3 {
+  color: #333;
+  margin-bottom: 15px;
+  border-bottom: 2px solid #eee;
+  padding-bottom: 8px;
+}
+
+.available-sessions .list-group {
+  border: 1px solid #eee;
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.available-sessions .list-group-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px;
+  border: none;
+  border-bottom: 1px solid #eee;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.available-sessions .list-group-item:last-child {
+  border-bottom: none;
+}
+
+.available-sessions .list-group-item:hover {
+  background-color: #f0f8ff;
+}
+
+.available-sessions .list-group-item.active {
+  background-color: #007bff;
+  color: white;
+}
+
+.available-sessions .list-group-item.active:hover {
+  background-color: #0056b3;
+}
+
+.available-sessions .session-date {
+  font-weight: bold;
+  color: #333;
+}
+
+.available-sessions .session-time {
+  color: #555;
+}
+
+.available-sessions .session-duration {
+  color: #777;
+  font-size: 0.9em;
+}
+
+.available-sessions p {
+  color: #777;
+  font-style: italic;
+}
+
+.button-group {
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+}
+
+.button-group .btn {
+  padding: 10px 20px;
+  border-radius: 6px;
+  font-size: 1rem;
+}
+
+.loading-container,
+.error-container,
+.not-found-container {
+  text-align: center;
+  padding: 20px;
+  font-size: 1.1rem;
+  color: #555;
+}
+
+.error-container {
+  color: #dc3545;
+  font-weight: bold;
+}

@@ -4,6 +4,7 @@ import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './BookSession.css';
 import { AuthContext } from '../context/AuthContext';
+import ConfirmationPopup from '../components/ConfirmationPopup'; // Import the popup component
 
 const BookSession = () => {
   const { mentorId } = useParams();
@@ -15,25 +16,29 @@ const BookSession = () => {
   const [selectedSession, setSelectedSession] = useState(null);
   const { user } = useContext(AuthContext);
   const userId = user?.id;
+  const [showConfirmationPopup, setShowConfirmationPopup] = useState(false);
+  const [confirmationMessage, setConfirmationMessage] = useState('');
+  const [bookingErrorPopup, setBookingErrorPopup] = useState(false);
+  const [bookingErrorMessage, setBookingErrorMessage] = useState('');
 
   useEffect(() => {
-    const fetchMentor = async () => {
+    const fetchMentorAndSessions = async () => {
       try {
-        const response = await axios.get(`http://localhost:5000/api/mentors/${mentorId}`);
-        setMentor(response.data);
-  
-        const sessionsResponse = await axios.get(`http://localhost:5000/api/mentors/sessions?mentorId=${mentorId}&status=available`); // Corrected URL
+        const mentorResponse = await axios.get(`http://localhost:5000/api/mentors/${mentorId}`);
+        setMentor(mentorResponse.data);
+
+        const sessionsResponse = await axios.get(`http://localhost:5000/api/mentors/sessions?mentorId=${mentorId}&status=available`);
         setAvailableSessions(sessionsResponse.data);
-        console.log(sessionsResponse.data);
-  
+        console.log("Available Sessions:", sessionsResponse.data);
+
         setLoading(false);
       } catch (err) {
         setError(err);
         setLoading(false);
       }
     };
-  
-    fetchMentor();
+
+    fetchMentorAndSessions();
   }, [mentorId]);
 
   if (loading) return <div className="loading-container">Loading...</div>;
@@ -52,12 +57,24 @@ const BookSession = () => {
         status: "booked",
       });
 
-      alert(`Booking session with ${mentor.firstName} ${mentor.lastName} on ${selectedSession.date}`);
-      navigate(`/mentee-dashboard/${userId}`);
+      const sessionDate = new Date(selectedSession.date).toLocaleDateString();
+      const sessionTime = new Date(selectedSession.date).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+      setConfirmationMessage(`Session booked successfully with ${mentor.firstName} ${mentor.lastName} on ${sessionDate} at ${sessionTime}`);
+      setShowConfirmationPopup(true);
     } catch (bookingError) {
-      alert("Error booking session. Please try again.");
+      setBookingErrorMessage("Error booking session. Please try again.");
+      setBookingErrorPopup(true);
       console.error("Booking error:", bookingError);
     }
+  };
+
+  const handleConfirmationClose = () => {
+    setShowConfirmationPopup(false);
+    navigate(`/mentee-dashboard/${userId}`);
+  };
+
+  const handleBookingErrorClose = () => {
+    setBookingErrorPopup(false);
   };
 
   return (
@@ -83,15 +100,23 @@ const BookSession = () => {
             {availableSessions.map((session) => (
               <li
                 key={session._id}
-                className={`list-group-item ${selectedSession && selectedSession._id === session._id ? 'active' : ''}`}
+                className={`list-group-item session-item ${selectedSession && selectedSession._id === session._id ? 'active' : ''}`}
                 onClick={() => setSelectedSession(session)}
               >
-                {session.date} - {session.duration} minutes
+                <span className="session-date">
+                  {new Date(session.date).toLocaleDateString()}
+                </span>
+                <span className="session-time">
+                  {new Date(session.date).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                </span>
+                <span className="session-duration">
+                  ({session.duration} minutes)
+                </span>
               </li>
             ))}
           </ul>
         ) : (
-          <p>No available sessions found.</p>
+          <p>No available sessions found for this mentor.</p>
         )}
       </div>
 
@@ -99,10 +124,25 @@ const BookSession = () => {
         <button className="btn btn-secondary" onClick={() => navigate(-1)}>
           ⬅ Back
         </button>
-        <button className="btn btn-primary" onClick={handleBooking}>
+        <button className="btn btn-primary" onClick={handleBooking} disabled={!selectedSession}>
           Confirm Booking
         </button>
       </div>
+
+      {showConfirmationPopup && (
+        <ConfirmationPopup
+          message={confirmationMessage}
+          onClose={handleConfirmationClose}
+        />
+      )}
+
+      {bookingErrorPopup && (
+        <ConfirmationPopup
+          message={bookingErrorMessage}
+          onClose={handleBookingErrorClose}
+          isError={true}
+        />
+      )}
     </div>
   );
 };

@@ -11,6 +11,8 @@ const MentorProfile = () => {
   const [error, setError] = useState(null);
   const navigate = useNavigate();
   const { user } = useContext(AuthContext);
+  const [loggedInMentor, setLoggedInMentor] = useState(null);
+  const loggedInUserId = user?.id;
 
   useEffect(() => {
     const fetchMentor = async () => {
@@ -26,6 +28,26 @@ const MentorProfile = () => {
 
     fetchMentor();
   }, [mentorId]);
+
+  useEffect(() => {
+    const fetchLoggedInMentor = async () => {
+      if (loggedInUserId) {
+        try {
+          const response = await axios.get(`http://localhost:5000/api/mentors/${loggedInUserId}`);
+          setLoggedInMentor(response.data);
+        } catch (error) {
+          console.error("Error fetching logged-in mentor:", error);
+        }
+      } else {
+        setLoggedInMentor(null);
+      }
+    };
+
+    fetchLoggedInMentor();
+  }, [loggedInUserId]);
+
+  const isViewingOwnProfile = loggedInMentor?._id === mentor?._id;
+  const isLoggedInAsMentor = !!loggedInMentor;
 
   if (loading) return <div className="loading-container">Loading mentor...</div>;
   if (error) return <div className="error-container">Error: {error.message}</div>;
@@ -74,13 +96,15 @@ const MentorProfile = () => {
         <button className="back-button" onClick={() => navigate(-1)}>
           ⬅ Back
         </button>
-        {user?.id === mentor._id ? (
+        {isViewingOwnProfile ? (
           <button
-            className="book-button"
+            className="dashboard-button"
             onClick={() => navigate(`/mentor-dashboard/${mentor._id}`)}
-          >
+          > 
             Dashboard
           </button>
+        ) : isLoggedInAsMentor ? (
+          null // If logged in as a mentor and not viewing own profile, show nothing
         ) : (
           <button
             className="book-button"

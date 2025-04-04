@@ -137,19 +137,6 @@ router.get("/", async (req, res) => {
   }
 });
 
-// GET mentor by ID
-router.get("/:id", async (req, res) => {
-  try {
-    const mentor = await Mentor.findById(req.params.id);
-    if (!mentor) {
-      return res.status(404).json({ message: "Mentor not found" });
-    }
-    res.json(mentor);
-  } catch (err) {
-    res.status(500).json({ message: err.message });
-  }
-});
-
 // Middleware to Verify Token
 const verifyToken = (req, res, next) => {
   const token = req.header("Authorization");
@@ -163,6 +150,48 @@ const verifyToken = (req, res, next) => {
     res.status(400).json({ message: "Invalid Token" });
   }
 };
+
+// GET sessions for a specific mentor
+router.get("/sessions", async (req, res) => {
+  try {
+    console.log("GET /sessions: Request received");
+    console.log("GET /sessions: req.query:", req.query);
+    const { mentorId, status } = req.query;
+    console.log("GET /sessions: mentorId from query:", mentorId);
+    console.log("GET /sessions: status from query:", status);
+    const filter = {};
+
+    if (mentorId) {
+      filter.mentorId = mentorId;
+      console.log("GET /sessions: Filter with mentorId:", filter);
+    }
+
+    if (status) {
+      filter.status = status;
+      console.log("GET /sessions: Filter with status:", filter);
+    }
+
+    const sessions = await Session.find(filter).sort({ date: 1 }); // Sort by date
+    console.log("GET /sessions: Found sessions:", sessions);
+    res.status(200).json(sessions);
+  } catch (error) {
+    console.error("GET /sessions: Error fetching sessions:", error);
+    res.status(500).json({ message: "Server error", error: error.message });
+  }
+});
+
+// GET mentor by ID
+router.get("/:id", async (req, res) => {
+  try {
+    const mentor = await Mentor.findById(req.params.id);
+    if (!mentor) {
+      return res.status(404).json({ message: "Mentor not found" });
+    }
+    res.json(mentor);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
 
 // Create Session Route
 router.post("/sessions", async (req, res) => {
@@ -204,6 +233,56 @@ router.post("/sessions", async (req, res) => {
     res.status(201).json({ message: "Session created successfully", session: savedSession });
   } catch (error) {
     console.error("POST /sessions: Error saving session:", error);
+    res.status(500).json({ message: "Server error", error: error.message });
+  }
+});
+
+// PUT route to update a session (e.g., to book it)
+router.put("/sessions/:id", async (req, res) => {
+  try {
+    const sessionId = req.params.id;
+    const { menteeId, status } = req.body;
+
+    console.log(`PUT /sessions/${sessionId}: Request body received:`, req.body);
+
+    const session = await Session.findById(sessionId);
+    if (!session) {
+      return res.status(404).json({ message: "Session not found" });
+    }
+
+    // Validate status update
+    const validStatuses = ["available", "booked", "completed", "canceled"];
+    if (status && !validStatuses.includes(status.toLowerCase())) {
+      return res.status(400).json({ message: "Invalid status value." });
+    }
+
+    // If booking, ensure the session is currently available
+    if (status && status.toLowerCase() === "booked" && session.status !== "available") {
+      return res.status(400).json({ message: "Session is not currently available for booking." });
+    }
+
+    // Update menteeId if provided
+    if (menteeId) {
+      // Basic validation for menteeId (you might want more robust validation)
+      const Mentee = require("../models/Mentee"); // Import Mentee model here to avoid circular dependency
+      const mentee = await Mentee.findById(menteeId);
+      if (!mentee) {
+        return res.status(400).json({ message: "Invalid mentee ID." });
+      }
+      session.menteeId = menteeId;
+    }
+
+    // Update status if provided
+    if (status) {
+      session.status = status.toLowerCase();
+    }
+
+    const updatedSession = await session.save();
+    console.log(`PUT /sessions/${sessionId}: Session updated successfully:`, updatedSession);
+
+    res.status(200).json({ message: "Session updated successfully", session: updatedSession });
+  } catch (error) {
+    console.error(`PUT /sessions/:id: Error updating session:`, error);
     res.status(500).json({ message: "Server error", error: error.message });
   }
 });
