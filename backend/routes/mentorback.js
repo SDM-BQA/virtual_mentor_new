@@ -3,9 +3,10 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const multer = require("multer");
 const Mentor = require("../models/Mentor");
+const Session = require("../models/Session");
+const Mentee = require("../models/Mentee"); // Import Mentee model
 const dotenv = require("dotenv");
-const Session = require("../models/Session"); // Import the Session model
-console.log("mentors.js: Starting execution");
+console.log("mentors.js: Starting execution"); 
 dotenv.config();
 
 const router = express.Router();
@@ -165,6 +166,22 @@ const verifyToken = (req, res, next) => {
 };
 
 // Create Session Route
+// router.post("/sessions", async (req, res) => {
+//   try {
+//     const { mentorId, date, duration, status } = req.body;
+//     const newSession = new Session({
+//       mentorId,
+//       date,
+//       duration,
+//       status,
+//     });
+//     await newSession.save();
+//     res.status(201).json({ message: "Session created successfully" });
+//   } catch (error) {
+//     console.error("Error creating session:", error);
+//     res.status(500).json({ error: "Internal server error" });
+//   }
+// });
 router.post("/sessions", async (req, res) => {
   try {
     console.log("POST /sessions: Request body received:", req.body);
@@ -204,6 +221,63 @@ router.post("/sessions", async (req, res) => {
     res.status(201).json({ message: "Session created successfully", session: savedSession });
   } catch (error) {
     console.error("POST /sessions: Error saving session:", error);
+    res.status(500).json({ message: "Server error", error: error.message });
+  }
+});
+
+
+
+router.get("/sessions", async (req, res) => {
+  try {
+    console.log("GET /sessions: Query parameters:", req.query);
+    const mentorId = req.query.mentorId;
+    const status = req.query.status;
+    
+    let query = {};
+
+    if (mentorId) {
+      query.mentorId = mentorId;
+    }
+
+    if (status) {
+      query.status = status;
+    }
+
+    const sessions = await Session.find(query);
+    console.log("GET /sessions: Found sessions:", sessions);
+    res.status(200).json(sessions);
+  } catch (error) {
+    console.error("GET /sessions: Error getting sessions:", error);
+    res.status(500).json({ message: "Server error", error: error.message });
+  }
+});
+
+
+// Update Session Route (for booking)
+router.put("/sessions/:id", async (req, res) => {
+  try {
+    const { menteeId, status } = req.body;
+
+    const session = await Session.findById(req.params.id);
+    if (!session) {
+      return res.status(404).json({ message: "Session not found" });
+    }
+
+    // Validate menteeId (optional, but recommended)
+    if (menteeId) {
+      const mentee = await Mentee.findById(menteeId);
+      if (!mentee) {
+        return res.status(400).json({ message: "Invalid mentee ID" });
+      }
+    }
+
+    session.menteeId = menteeId;
+    session.status = status;
+    await session.save();
+
+    res.json({ message: "Session updated successfully", session });
+  } catch (error) {
+    console.error("Error updating session:", error);
     res.status(500).json({ message: "Server error", error: error.message });
   }
 });
