@@ -23,6 +23,7 @@ import MentorDashboard from "./Dashboard/MentorDashboard.jsx";
 import BookSession from "./BookSession/BookSession.jsx";
 import React, { useState, useEffect } from 'react';
 import LoadingScreen from './shared/UIElement/LoadingScreen.jsx'; // Import LoadingScreen
+import ChatBot from './ChatBot/Chatbot.jsx'
 
 
 function App() {
@@ -63,6 +64,7 @@ function App() {
               <Route path="/book-session/:mentorId" element={<BookSession />} />
               <Route path="*" element={<Navigate to="/" />} />
             </Routes>
+            <ChatBot/>
             <Footer />
           </AuthProvider>
         </Router>

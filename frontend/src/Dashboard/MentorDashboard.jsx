@@ -175,12 +175,16 @@ const MentorDashboard = () => {
   if (!mentor)
     return <div className="not-found-container">Mentor not found.</div>;
 
+  const profilePictureUrl = mentor?.profilePicture
+    ? `http://localhost:5000/${mentor.profilePicture}`
+    : "https://adaptcommunitynetwork.org/wp-content/uploads/2023/09/person-placeholder.jpg";
+
   return (
     <div className="mentor-dashboard-container">
-      {/* ... profile header ... */}
+      {/* Profile Header with Dynamic Picture */}
       <div className="profile-header">
         <img
-          src="https://adaptcommunitynetwork.org/wp-content/uploads/2023/09/person-placeholder.jpg"
+          src={profilePictureUrl}
           alt={`${mentor.firstName || "Mentor"} ${mentor.lastName || ""}`}
           className="profile-picture"
         />
@@ -195,7 +199,7 @@ const MentorDashboard = () => {
         <div className="manage-sessions">
           <h3>Manage Sessions</h3>
           <div className="session-scheduler">
-            {/* ... date, time, duration pickers ... */}
+            {/* Date, Time, Duration Pickers */}
             <div className="date-picker">
               <label>Date:</label>
               <DatePicker
@@ -326,8 +330,8 @@ const MentorDashboard = () => {
           )}
         </div>
       </div>
-      {/* ... profile details ... */}
-      <div className="profile-details">
+      {/* Profile Details with Dynamic Picture (Optional - Picture is already in header) */}
+      {/* <div className="profile-details">
         <div className="detail-section">
           <p>
             <strong>Mentor In:</strong> {mentor.mentorIn}
@@ -376,7 +380,7 @@ const MentorDashboard = () => {
         <div className="bio-section">
           <strong>Bio:</strong> {mentor.bio || "N/A"}
         </div>
-      </div>
+      </div> */}
       <button className="back-button" onClick={() => navigate(-1)}>
         ⬅ Back
       </button>

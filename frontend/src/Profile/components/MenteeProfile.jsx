@@ -23,12 +23,15 @@ const MenteeProfile = () => {
     return <div className="no-user-container">Please log in to view your profile.</div>;
   }
 
+  const profilePictureUrl = userData?.profilePicture
+    ? `http://localhost:5000/${userData.profilePicture}`
+    : 'https://adaptcommunitynetwork.org/wp-content/uploads/2023/09/person-placeholder.jpg';
+
   return (
     <div className="mentee-profile-container">
       <div className="profile-header">
         <img
-          // src={userData?.profilePicture || 'https://adaptcommunitynetwork.org/wp-content/uploads/2023/09/person-placeholder.jpg'}
-          src={'https://adaptcommunitynetwork.org/wp-content/uploads/2023/09/person-placeholder.jpg'}
+          src={profilePictureUrl}
           alt="Profile"
           className="profile-picture"
         />
@@ -65,7 +68,7 @@ const MenteeProfile = () => {
 
       <div className="profile-actions">
         <button className="back-button" onClick={() => window.history.back()}>
-        ⬅ Back
+          ⬅ Back
         </button>
       </div>
     </div>

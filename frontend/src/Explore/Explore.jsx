@@ -94,7 +94,6 @@ const Explore = () => {
 
       {loading ? (
         <div className="loading-container">
-         
           <div className="loading-spinner"></div>
           <p className="text-primary">Loading Mentors...</p>
         </div>
@@ -105,7 +104,11 @@ const Explore = () => {
               <div key={mentor._id} className="col-md-4 mb-4">
                 <div className="card mentor-card">
                   <img
-                    src={"https://adaptcommunitynetwork.org/wp-content/uploads/2023/09/person-placeholder.jpg"}
+                    src={
+                      mentor.profilePicture
+                        ? `http://localhost:5000/${mentor.profilePicture}`
+                        : "https://adaptcommunitynetwork.org/wp-content/uploads/2023/09/person-placeholder.jpg"
+                    }
                     className="card-img-top"
                     alt={`${mentor.firstName} ${mentor.lastName}`}
                   />

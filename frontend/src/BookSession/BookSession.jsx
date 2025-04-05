@@ -94,7 +94,7 @@ const BookSession = () => {
       </div>
 
       <div className="available-sessions">
-        <h3>Available Sessions:</h3>
+        <h3 className='text-center'>Available Sessions</h3>
         {availableSessions.length > 0 ? (
           <ul className="list-group">
             {availableSessions.map((session) => (
@@ -116,7 +116,7 @@ const BookSession = () => {
             ))}
           </ul>
         ) : (
-          <p>No available sessions found for this mentor.</p>
+          <p className='text-center'>No available sessions found for this mentor.</p>
         )}
       </div>
 

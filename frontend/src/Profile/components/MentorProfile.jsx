@@ -19,6 +19,7 @@ const MentorProfile = () => {
       try {
         const response = await axios.get(`http://localhost:5000/api/mentors/${mentorId}`);
         setMentor(response.data);
+        console.log("Fetched Mentor Data:", response.data);
         setLoading(false);
       } catch (err) {
         setError(err);
@@ -35,6 +36,7 @@ const MentorProfile = () => {
         try {
           const response = await axios.get(`http://localhost:5000/api/mentors/${loggedInUserId}`);
           setLoggedInMentor(response.data);
+  
         } catch (error) {
           console.error("Error fetching logged-in mentor:", error);
         }
@@ -53,11 +55,16 @@ const MentorProfile = () => {
   if (error) return <div className="error-container">Error: {error.message}</div>;
   if (!mentor) return <div className="not-found-container">Mentor not found.</div>;
 
+
+  const profilePictureUrl = mentor?.profilePicture
+    ? `http://localhost:5000/${mentor.profilePicture}` // Construct the URL based on your backend's static serving setup
+    : "https://adaptcommunitynetwork.org/wp-content/uploads/2023/09/person-placeholder.jpg"; // Fallback to placeholder
+
   return (
     <div className="mentor-profile-container">
       <div className="profile-header">
         <img
-          src={"https://adaptcommunitynetwork.org/wp-content/uploads/2023/09/person-placeholder.jpg"}
+          src={profilePictureUrl}
           alt={`${mentor.firstName || "Mentor"} ${mentor.lastName || ""}`}
           className="profile-picture"
         />

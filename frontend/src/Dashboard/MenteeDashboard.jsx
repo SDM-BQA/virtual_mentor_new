@@ -67,11 +67,15 @@ const MenteeDashboard = () => {
   if (!menteeData)
     return <div className="not-found-container">Mentee data not found.</div>;
 
+  const profilePictureUrl = menteeData?.profilePicture
+    ? `http://localhost:5000/${menteeData.profilePicture}`
+    : "https://adaptcommunitynetwork.org/wp-content/uploads/2023/09/person-placeholder.jpg";
+
   return (
     <div className="mentee-dashboard-container">
       <div className="profile-header">
         <img
-          src="https://adaptcommunitynetwork.org/wp-content/uploads/2023/09/person-placeholder.jpg"
+          src={profilePictureUrl}
           alt={`${menteeData.fname || "Mentee"} ${menteeData.lname || ""}`}
           className="profile-picture"
         />
@@ -192,7 +196,7 @@ const MenteeDashboard = () => {
             })}
           </div>
         ) : (
-          <div className="alert alert-warning">
+          <div className="alert alert-warning text-center">
             You haven’t booked any sessions yet.
           </div>
         )}
