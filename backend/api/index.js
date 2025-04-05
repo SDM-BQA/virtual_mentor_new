@@ -69,9 +69,9 @@ mongoose
   .catch((err) => console.error("MongoDB Connection Error:", err));
 
 // Routes
-app.use("/api/mentors", require("../../routes/mentorRoutes"));
-app.use("/api/mentees", require("../../routes/menteeRoutes"));
-app.use("/api/auth", require("../../routes/authRoutes"));
+app.use("/api/mentors", require("../routes/mentorRoutes"));
+app.use("/api/mentees", require("../routes/menteeRoutes"));
+app.use("/api/auth", require("../routes/authRoutes"));
 
 // Default route for testing
 app.get("/api", (req, res) => {
